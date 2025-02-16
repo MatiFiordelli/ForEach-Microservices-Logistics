@@ -8,7 +8,7 @@ export const deleteTripRecordController = async (req: Request, res: Response, ne
 
     if (!email || !id)	{
 		const error = new Error('Email and Trip Id are required')
-		error.name = 'EmailAndTaskAreRequired'
+		error.name = 'EmailAndTripAreRequired'
 		throw error
 	}
 
