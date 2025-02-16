@@ -44,22 +44,18 @@ const TripSchema = new Schema<IUserTrips>(
 );
 
 const TransportModeSchema = new Schema({
-  transportModes: [
-    {
-      mode: {
-        type: String,
-        required: true,
-      },
-      emissionFactor: {
-        type: Number,
-        required: true,
-      },
-      code: {
-        type: Number,
-        required: true,
-      }
+    mode: {
+      type: String,
+      required: true,
+    },
+    emissionFactor: {
+      type: Number,
+      required: true,
+    },
+    code: {
+      type: Number,
+      required: true,
     }
-  ]
 });
 
 export {TripSchema, TransportModeSchema};
