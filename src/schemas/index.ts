@@ -1,7 +1,7 @@
 import { Schema } from 'mongoose';
 import { IUserTrips } from '../interfaces/IModels.js';
 
-export const TripSchema = new Schema<IUserTrips>(
+const TripSchema = new Schema<IUserTrips>(
   {
     email: {
       type: String,
@@ -18,8 +18,18 @@ export const TripSchema = new Schema<IUserTrips>(
     },
     trips: [
       {
-        startAddress: { type: String, required: true, trim: true, lowercase: true },
-        endAddress: { type: String, required: true, trim: true, lowercase: true },
+        startAddress: {
+          type: String,
+          required: true,
+          trim: true,
+          lowercase: true,
+        },
+        endAddress: {
+          type: String,
+          required: true,
+          trim: true,
+          lowercase: true,
+        },
         transportMode: { type: Number, required: true },
         travelDate: { type: Date, required: true },
         distance: { type: Number, required: true },
@@ -32,3 +42,24 @@ export const TripSchema = new Schema<IUserTrips>(
     timestamps: true,
   },
 );
+
+const TransportModeSchema = new Schema({
+  transportModes: [
+    {
+      mode: {
+        type: String,
+        required: true,
+      },
+      emissionFactor: {
+        type: Number,
+        required: true,
+      },
+      code: {
+        type: Number,
+        required: true,
+      }
+    }
+  ]
+});
+
+export {TripSchema, TransportModeSchema};

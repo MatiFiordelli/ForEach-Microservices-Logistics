@@ -6,6 +6,7 @@ import { getTripRecordsByEmailController } from '../controllers/getTripRecordsBy
 import { searchTripRecordsController } from '../controllers/searchTripRecordsController.js';
 import { updateTripRecordController } from '../controllers/updateTripRecordController.js';
 import { downloadTripsExcelController } from '../controllers/downloadTripsExcelController.js';
+import { getTransportModes } from '../controllers/getTransportModes.js';
 import { validationUserTripData } from '../middlewares/validationUserTripData.js';
 import { validationToken } from '../middlewares/validationToken.js';
 
@@ -390,5 +391,61 @@ router.put('/trip-records/:id', validationToken, validationUserTripData, updateT
 router.delete('/trip-records/:id', validationToken, deleteTripRecordController);
 
 router.get('/downloadTripsExcel', downloadTripsExcelController);
+
+/**
+ * @swagger
+ * /transport-modes:
+ *   get:
+ *     summary: Get all transport modes
+ *     description: Retrieves all transport modes from the database.
+ *     tags: 
+ *       - Transport Modes
+ *     responses:
+ *       200:
+ *         description: A list of transport modes.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: OK
+ *                 transportModes:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       mode:
+ *                         type: string
+ *                         example: "Metro (Tren, Subway, Subterráneo)"
+ *                       emissionFactor:
+ *                         type: number
+ *                         example: 0.033
+ *                       code:
+ *                         type: number
+ *                         example: 0
+ *       404:
+ *         description: No transport modes found.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: No transport modes found
+ *       500:
+ *         description: Internal server error.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Internal server error
+ */
+router.get('/getTransportModes', getTransportModes);
 
 export { router };
