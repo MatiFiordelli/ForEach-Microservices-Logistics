@@ -10,6 +10,12 @@ export const TripSchema = new Schema<IUserTrips>(
       lowercase: true,
       trim: true,
     },
+    employeeName: {
+      type: String,
+      required: true,
+      lowercase: true,
+      trim: true,
+    },
     trips: [
       {
         startAddress: { type: String, required: true, trim: true, lowercase: true },

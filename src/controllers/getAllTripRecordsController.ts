@@ -1,27 +1,20 @@
 import { NextFunction, Request, Response } from "express";
-import { UserTasks } from "../models/index.js";
-
+import { UserTrips } from "../models/index.js";
 
 export const getAllTripRecordsController = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    const { email } = req.query;
+    //In this controller, it is possible and necessary to add pagination
 
-    if (!email)	{
-        const error = new Error('Email is required')
-        error.name = 'EmailIsRequired'
-        throw error
-    }
-    
     try {
-        const userTasks = await UserTasks.findOne({ email: email })
-
-        if (userTasks) {
-            res.status(200).json({ message: 'OK', tasks: userTasks.tasks })
+        const userTrips = await UserTrips.find({})
+        
+        if (userTrips.length > 0) {
+            res.status(200).json({ message: 'OK', users: userTrips });
         } else {
-            res.status(200).json({ message: 'User not found', tasks: [] })
+            res.status(404).json({ message: 'No trips found' });
         }
         
     } catch (error) {
-        console.log(error)
+        console.error(error)
         next(error)
     }
 };

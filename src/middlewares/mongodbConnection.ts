@@ -1,10 +1,11 @@
 import mongoose from 'mongoose'
 import dotenv from 'dotenv'
-import { NextFunction, Request, Response } from 'express'
+import { NextFunction, Response } from 'express'
+import { CustomRequest } from '../interfaces/CustomRequest'
 
 dotenv.config()
 
-export const mongodbConnection = async (req: Request, res: Response, next: NextFunction) => {
+export const mongodbConnection = async (req: CustomRequest, res: Response, next: NextFunction) => {
     try {
         const URI = process.env.MONGO_URI
 
@@ -17,18 +18,17 @@ export const mongodbConnection = async (req: Request, res: Response, next: NextF
         await mongoose.connect(URI)
         console.log('MongoDB connected successfully');
 
-        mongoose.connection.on('connected', () => {
-            console.log('MongoDB connected successfully');
-            const database = mongoose.connection.db;
+        const database = mongoose.connection.db
 
-            if (!database) {
-                const error = new Error('Database is undefined');
-                error.name = 'DatabaseIsUndefined';
-                throw error;
-            }
+        if(!database){
+            const error = new Error('Database is undefined')
+            error.name = 'DatabaseIsUndefined'
+            throw error
+        }
+        
+        req.db = database
 
-            next();
-        });
+        next()
 
     } catch (error: unknown) {
         if (error instanceof Error) {

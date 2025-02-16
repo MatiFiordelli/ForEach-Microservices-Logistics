@@ -43,13 +43,12 @@ app.use(mongodbConnection)
 
 app.use('/api', router)
 
-//aca hay que poner un error 404 ya que no encontro ninguna ruta:
-/*
+
 app.use((req, res, next) => {
     const error = new Error('Route Not Found');
     error.name = "RouteNotFound";
     next(error)
-*/
+})
 
 app.use(errorHandler)
 

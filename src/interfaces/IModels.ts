@@ -8,9 +8,11 @@ export interface ITrip {
   distance: number;
   employeeName: string;
   roundTrip: boolean;
+  _id: Types.ObjectId;
 }
 
 export interface IUserTrips extends Document {
   email: string;
+  employeeName: string;
   trips: ITrip[];
 }

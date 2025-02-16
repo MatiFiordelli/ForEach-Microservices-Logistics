@@ -28,6 +28,13 @@ export const errorHandler = (
 		return;
 	}
 
+	if (err.name === "InvalidTokenPayload") {
+		res.status(400).json({
+			message: err.message,
+		});
+		return;
+	}
+
 	if (err.name === "TokenNotProvided") {
 		res.status(401).json({
 			message: err.message,

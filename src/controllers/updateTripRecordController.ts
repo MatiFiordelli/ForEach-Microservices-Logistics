@@ -1,61 +1,54 @@
 import { NextFunction, Request, Response } from "express";
-import { UserTasks } from "../models/index.js";
+import { UserTrips } from "../models/index.js";
 import mongoose from "mongoose";
 
 export const updateTripRecordController = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    const { email, task } = req.body;
+    const { email, trip } = req.body;
     const { id } = req.params;
     const objectId = new mongoose.Types.ObjectId(id);
 
-    if (!email || !task) {
-        const error = new Error('Email and Task are required');
-        error.name = 'EmailAndTaskAreRequired';
+    if (!email || !trip) {
+        const error = new Error('Email and Trip are required');
+        error.name = 'EmailAndTripAreRequired';
         throw error;
     }
 
     try {
-        let userTasks = await UserTasks.findOne({ email: email });
+        let userTrips = await UserTrips.findOne({ email: email });
 
-        if (!userTasks) {
+        if (!userTrips) {
             const error = new Error('Document not found');
             error.name = 'DocumentNotFound';
             throw error;
         }
 
-        const taskToUpdate = userTasks.tasks.find((t) => t._id.toString() === id);
+        const tripIndex = userTrips.trips.findIndex((t) => t._id.toString() === id);
 
-        if (!taskToUpdate) {
-            const error = new Error('Task not found');
-            error.name = 'TaskNotFound';
+        if (tripIndex === -1) {
+            const error = new Error('Trip not found');
+            error.name = 'TripNotFound';
             throw error;
         }
 
-        const taskExists = userTasks.tasks.some(t => t.title === task);
+        userTrips.trips[tripIndex] = trip
 
-        if (taskExists) {
-            const error = new Error() as Error & { code?: number };
-            error.code = 11000;
-            throw error;
-        }
-
-        taskToUpdate.title = task;
-
-        const updatedDocument = await userTasks.save();
+        const updatedDocument = await userTrips.save();
 
         if (updatedDocument) {
             res.status(200).json({ updatedDocument, message: 'OK' });
         } else {
-            const error = new Error('Unable to save task');
-            error.name = 'UnableToSaveTask';
+            const error = new Error('Unable to save trip');
+            error.name = 'UnableToSaveTrip';
             throw error;
         }
+        
     } catch (error) {
         const customError = error as Error & { code?: number };
         console.error(customError);
 
         if (customError.code === 11000) {
-            const error = new Error('Task already exists');
-            error.name = 'TaskAlreadyExists';
+            const error = new Error('Trip already exists');
+            error.name = 'TripAlreadyExists';
             next(error);
         } else {
             next(customError);
