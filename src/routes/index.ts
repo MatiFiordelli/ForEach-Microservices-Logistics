@@ -86,7 +86,7 @@ router.post('/trip-records', validationToken, validationUserTripData, createTrip
 
 /**
  * @swagger
- * /trip-records:
+ * /trip-records/1/all:
  *   get:
  *     summary: Get all trip records with pagination
  *     description: Retrieves all trip records from the database, in the future it will be updated with pagination support.
@@ -114,11 +114,11 @@ router.post('/trip-records', validationToken, validationUserTripData, createTrip
  *       500:
  *         description: Internal server error.
  */
-router.get('/trip-records', validationToken, getAllTripRecordsController);
+router.get('/trip-records/1/all', validationToken, getAllTripRecordsController);
 
 /**
  * @swagger
- * /trip-records/search:
+ * /trip-records/1/search:
  *   get:
  *     summary: Search for trip records with filters
  *     description: Search for trip records by employee name, start address, and end address.
@@ -216,7 +216,7 @@ router.get('/trip-records', validationToken, getAllTripRecordsController);
  *                   type: string
  *                   example: Internal server error
  */
-router.get('/trip-records/search', validationToken, searchTripRecordsController);
+router.get('/trip-records/1/search', validationToken, searchTripRecordsController);
 
 /**
  * @swagger
@@ -262,7 +262,7 @@ router.get('/trip-records/search', validationToken, searchTripRecordsController)
  *       500:
  *         description: Internal server error.
  */
-router.get('/trip-records/:id', validationToken, getTripRecordsByEmailController);
+router.get('/trip-records', validationToken, getTripRecordsByEmailController);
 
 /**
  * @swagger
@@ -390,7 +390,7 @@ router.put('/trip-records/:id', validationToken, validationUserTripData, updateT
  */
 router.delete('/trip-records/:id', validationToken, deleteTripRecordController);
 
-router.get('/downloadTripsExcel', downloadTripsExcelController);
+//router.get('/downloadTripsExcel', downloadTripsExcelController);
 
 /**
  * @swagger

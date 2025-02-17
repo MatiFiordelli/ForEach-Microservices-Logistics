@@ -3,7 +3,7 @@ import { UserTrips } from "../models/index.js";
 import jwt, { JwtPayload } from 'jsonwebtoken'
 
 export const getTripRecordsByEmailController = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    const { id } = req.params
+    //const { id } = req.params
     const token = req.headers.authorization?.split(" ")[1] as string;
     let email = '';
 
@@ -17,7 +17,7 @@ export const getTripRecordsByEmailController = async (req: Request, res: Respons
     
     email = decoded.email;
 
-    if (!email || !id) {
+    if (!email /* || !id */) {
         const error = new Error('Email and Trip Id are required')
         error.name = 'EmailAndTripAreRequired'
         throw error
